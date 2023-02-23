@@ -27,11 +27,8 @@ func move(delta):
 			position = path[0]
 			path.pop_front()
 		else:
-			print(position)
 			pos = grid.worldToGrid(position)
 			position += (path[0] - position).normalized() * data.speed * delta
-			print(data.speed)
-			print(position)
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

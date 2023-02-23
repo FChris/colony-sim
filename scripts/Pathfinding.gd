@@ -17,10 +17,7 @@ func initialize():
 func getPath(_pointA: Vector2, _pointB: Vector2):
 	var aID = getPointID(_pointA)
 	var bID = getPointID(_pointB)
-	print(aID)
-	print(bID)
 	var p = aStar.get_point_path(aID, bID)
-	print(p)
 	return p
 
 func addPoints():
@@ -52,7 +49,6 @@ func connectPoint(_point: Vector2):
 		var neighbourID = getPointID(neighbour)
 		if grid.grid.has(neighbour) and grid.grid[neighbour].navigable: # change later to see if navigable
 			aStar.connect_points(_pointID, neighbourID)
-			print(_pointID, neighbourID)
 
 func disconnectPoint(_point: Vector2):
 	var _pointID = getPointID(_point)
