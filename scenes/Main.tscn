@@ -1,0 +1,65 @@
+[gd_scene load_steps=15 format=3 uid="uid://djt5v6fk3aatb"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_sgqhv"]
+[ext_resource type="Texture2D" uid="uid://lvlsqfqx55a0" path="res://assets/colonyArt/grass.png" id="2_ldlcn"]
+[ext_resource type="Script" path="res://scripts/Grid.gd" id="2_uq64d"]
+[ext_resource type="Script" path="res://scripts/Camera2D.gd" id="3_5u3js"]
+[ext_resource type="PackedScene" uid="uid://cygelcu61hegn" path="res://scenes/Unit.tscn" id="3_c8vxk"]
+[ext_resource type="Texture2D" uid="uid://cvb43jnocd6jk" path="res://assets/colonyArt/dirt.png" id="3_slc4s"]
+[ext_resource type="Script" path="res://scripts/Pathfinding.gd" id="4_4a8hc"]
+[ext_resource type="Texture2D" uid="uid://kdtm3s0tn488" path="res://assets/colonyArt/stonewall.png" id="4_up0gp"]
+[ext_resource type="Texture2D" uid="uid://cntdq2v70uqx6" path="res://assets/colonyArt/missing.png" id="5_r4cd5"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qajti"]
+texture = ExtResource("2_ldlcn")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v65h8"]
+texture = ExtResource("3_slc4s")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wm8xr"]
+texture = ExtResource("4_up0gp")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s5o1g"]
+texture = ExtResource("5_r4cd5")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ptxlp"]
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_qajti")
+sources/1 = SubResource("TileSetAtlasSource_v65h8")
+sources/2 = SubResource("TileSetAtlasSource_wm8xr")
+sources/3 = SubResource("TileSetAtlasSource_s5o1g")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_sgqhv")
+
+[node name="Grid" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_ptxlp")
+format = 2
+layer_0/name = "floor"
+layer_1/name = "building"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+script = ExtResource("2_uq64d")
+show_debug = true
+
+[node name="Units" type="Node2D" parent="Grid"]
+
+[node name="Unit" parent="Grid/Units" instance=ExtResource("3_c8vxk")]
+
+[node name="Pathfinding" type="Node" parent="Grid"]
+script = ExtResource("4_4a8hc")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_5u3js")

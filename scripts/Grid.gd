@@ -1,0 +1,40 @@
+class_name Grid
+extends TileMap
+
+@export var width: int = 12
+@export var height: int = 12
+@export var cell_size: int = 128
+
+@export var show_debug: bool = false
+
+var grid: Dictionary = {}
+
+func generateGrid():
+	for x in width:
+		for y in height:
+			grid[Vector2(x,y)] = CellData.new(Vector2(x,y))
+			grid[Vector2(x,y)].floorData = preload("res://data/floor/gras.tres")
+			refreshTile(Vector2(x,y))
+			if show_debug:
+				var rect = ReferenceRect.new()
+				rect.position = gridToWorld(Vector2(x,y))
+				rect.size = Vector2(cell_size, cell_size)
+				rect.editor_only = false
+				add_child(rect)
+				var label = Label.new()
+				label.position = gridToWorld(Vector2(x,y))
+				label.text = str(Vector2(x,y))
+				add_child(label)
+
+func refreshTile(_pos: Vector2) -> void:
+	var data = grid[_pos]
+	set_cell(0, _pos, data.floorData.id, data.floorData.coords)
+	set_cell(1, _pos)
+
+func gridToWorld(_pos: Vector2) -> Vector2:
+	return _pos * cell_size
+	
+func worldToGrid(_pos: Vector2) -> Vector2:
+	return floor(_pos / cell_size)
+
+
